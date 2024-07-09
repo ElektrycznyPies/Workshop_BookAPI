@@ -11,14 +11,17 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import pl.coderslab.service.BookService;
 //import pl.coderslab.converter.AuthorConverter;
 //import pl.coderslab.converter.PublisherConverter;
 
@@ -31,8 +34,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "pl.coderslab")
-@EnableJpaRepositories
-//@EnableJpaRepositories(basePackages = "pl.coderslab.repository")
+@EnableJpaRepositories(basePackages = "pl.coderslab.repository")
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
 
@@ -48,11 +50,10 @@ public class AppConfig implements WebMvcConfigurer {
         return new JpaTransactionManager(emf);
     }
 
-
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/");
+        viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
@@ -70,7 +71,20 @@ public class AppConfig implements WebMvcConfigurer {
         return converter;
     }
 
-//    @Bean
+    @Controller
+    @RequestMapping("/admin/books")
+    public class ManageBookController {
+
+        private final BookService bookService;
+
+        public ManageBookController(BookService bookService) {
+            this.bookService = bookService;
+        }
+
+    }
+
+
+    //    @Bean
 //    public PublisherConverter publisherConverter() {
 //        return new PublisherConverter();
 //    }

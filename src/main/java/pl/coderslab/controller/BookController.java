@@ -11,8 +11,7 @@ import java.util.Optional;
 @RequestMapping("/books")
 public class BookController {
 
-    // wstrzyknięcie zależności
-    private BookService bookService;
+    private BookService bookService;  // wstrzyknięcie zależności
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -20,35 +19,12 @@ public class BookController {
 
     // WYŚWIETL WSZYSTKIE
 
-//    // LISTA Z UŻYCIEM RESPONSEENTITY, POZWALA ZOBACZYĆ ODP. SERWERA 200 OK
-//    @RequestMapping("")
-//    @ResponseBody
-//    public ResponseEntity<List<Book>> getList() {
-//        List<Book> books = bookService.getBooks();
-//        return ResponseEntity.ok(books);
-//    }
-
-    // KLASYCZNA LISTA
         @RequestMapping("")
         @ResponseBody
         public List<Book> getList() {
             List<Book> books = bookService.getBooks();
             return books;
         }
-
-    // WYŚWIETL 1 WEDŁUG ID
-//    @RequestMapping("/{id}")
-//    public ResponseEntity<Book> get(@PathVariable Long id) {
-//        Optional<Book> bookOptional = bookService.get(id);
-//
-//        if (bookOptional.isPresent()) {
-//            Book book = bookOptional.get();
-//            return ResponseEntity.ok(book); // zwraca książkę ze statusem 200 OK
-//        } else {
-//            return ResponseEntity.notFound().build(); // zwraca status 404 Not Found
-//        }
-//    }
-
 
     // WYŚWIETL 1 WEDŁUG ID
     @RequestMapping("/{id}")

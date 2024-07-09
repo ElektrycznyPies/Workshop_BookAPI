@@ -1,5 +1,6 @@
 package pl.coderslab.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.model.Book;
@@ -10,8 +11,10 @@ import java.util.Optional;
 
 @Service
 @Primary
+
 public class JpaBookService implements BookService {
 
+    @Autowired
     private final BookRepository bookRepository;
 
     public JpaBookService(BookRepository bookRepository) {
@@ -22,18 +25,24 @@ public class JpaBookService implements BookService {
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }
+
     @Override
     public Optional<Book> get(Long id) {
-        return Optional.empty();
-    }
-    @Override
-    public void add(Book book) {
-    }
-    @Override
-    public void delete(Long id) {
-    }
-    @Override
-    public void update(Book book) {
+        return bookRepository.findById(id);
     }
 
+    @Override
+    public void add(Book book) {
+        bookRepository.save(book);
+    }
+
+    @Override
+    public void delete(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Book book) {
+        bookRepository.save(book);
+    }
 }
