@@ -1,8 +1,8 @@
 package pl.coderslab.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Book;
+import pl.coderslab.service.BookService;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,33 +20,41 @@ public class BookController {
 
     // WYŚWIETL WSZYSTKIE
 
-    // LISTA Z UŻYCIEM RESPONSEENTITY, POZWALA ZOBACZYĆ ODP. SERWERA 200 OK
-    @RequestMapping("")
-    @ResponseBody
-    public ResponseEntity<List<Book>> getList() {
-        List<Book> books = bookService.getBooks();
-        return ResponseEntity.ok(books);
-    }
+//    // LISTA Z UŻYCIEM RESPONSEENTITY, POZWALA ZOBACZYĆ ODP. SERWERA 200 OK
+//    @RequestMapping("")
+//    @ResponseBody
+//    public ResponseEntity<List<Book>> getList() {
+//        List<Book> books = bookService.getBooks();
+//        return ResponseEntity.ok(books);
+//    }
 
     // KLASYCZNA LISTA
-    //    @RequestMapping("")
-    //    @ResponseBody
-    //    public List<Book> getList() {
-    //        List<Book> books = bookService.getBooks();
-    //        return books;
-    //    }
+        @RequestMapping("")
+        @ResponseBody
+        public List<Book> getList() {
+            List<Book> books = bookService.getBooks();
+            return books;
+        }
+
+    // WYŚWIETL 1 WEDŁUG ID
+//    @RequestMapping("/{id}")
+//    public ResponseEntity<Book> get(@PathVariable Long id) {
+//        Optional<Book> bookOptional = bookService.get(id);
+//
+//        if (bookOptional.isPresent()) {
+//            Book book = bookOptional.get();
+//            return ResponseEntity.ok(book); // zwraca książkę ze statusem 200 OK
+//        } else {
+//            return ResponseEntity.notFound().build(); // zwraca status 404 Not Found
+//        }
+//    }
+
 
     // WYŚWIETL 1 WEDŁUG ID
     @RequestMapping("/{id}")
-    public ResponseEntity<Book> get(@PathVariable Long id) {
+    public Optional<Book> get(@PathVariable Long id) {
         Optional<Book> bookOptional = bookService.get(id);
-
-        if (bookOptional.isPresent()) {
-            Book book = bookOptional.get();
-            return ResponseEntity.ok(book); // zwraca książkę ze statusem 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // zwraca status 404 Not Found
-        }
+        return bookOptional;
     }
 
     // DODAJ KSIĄŻKĘ (CURLEM W JSON-ie)
@@ -59,18 +67,16 @@ public class BookController {
 
     // USUŃ KSIĄŻKĘ WG ID
     @RequestMapping("/del/{id}")
-    public ResponseEntity<List<Book>> delete(@PathVariable Long id) {
+    public Optional<Book> delete(@PathVariable Long id) {
         Optional<Book> bookOptional = bookService.get(id);
 
         if (bookOptional.isPresent()) {
             bookService.delete(id);
-            List<Book> updatedBooks = bookService.getBooks(); // Call getList() directly
-            return ResponseEntity.ok(updatedBooks);
+            return bookOptional;
         } else {
-            return ResponseEntity.notFound().build();
+            return Optional.empty();
         }
     }
-
 
     // ZMODYFIKUJ KSIĄŻKĘ WG CURLA
     @PutMapping("")
