@@ -43,12 +43,7 @@ public class ManageBookController {
         return "redirect:/admin/books/all";
     }
 
-    // WYŚWIETL 1 detale PO ID
-//    @GetMapping("/show/{id}")
-//    public String showBook(Model model, @PathVariable Long id) {
-//        model.addAttribute("book", bookService.get(id));
-//        return "/showOne";
-//    }
+    // WYŚWIETL detale jednej PO ID
 
     @GetMapping("/show/{id}")
     public String showBook(Model model, @PathVariable Long id) {
@@ -56,6 +51,22 @@ public class ManageBookController {
         Book book = bookService.get(id).orElseThrow(() -> new EntityNotFoundException("Book " + id + " not found"));
         model.addAttribute("book", book);
         return "/showOne";
+    }
+
+    // EDYCJA
+    @GetMapping(value = "/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookService.get(id));
+        return "/bookEdit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editBook(@Valid Book book, BindingResult result) {
+        if (result.hasErrors()) {
+            return "/bookEdit";
+        }
+        bookService.add(book);
+        return "redirect:/admin/books/all";
     }
 
 
