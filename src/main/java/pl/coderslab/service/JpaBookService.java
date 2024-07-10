@@ -11,13 +11,12 @@ import java.util.Optional;
 
 @Service
 @Primary
-
 public class JpaBookService implements BookService {
 
     @Autowired
     private final BookRepository bookRepository;
 
-    public JpaBookService(BookRepository bookRepository) {
+    public JpaBookService(BookRepository bookRepository) {  // wstrzyknięcie zal.
         this.bookRepository = bookRepository;
     }
 

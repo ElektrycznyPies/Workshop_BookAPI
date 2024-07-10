@@ -5,7 +5,7 @@
     <title>Book List</title>
 </head>
 <body>
-<a href="<c:url value="/admin/books/all"/>">Dodaj</a>
+<a href="<c:url value="/admin/books/add"/>">Dodaj</a>
 <table >
     <thead>
     <th>isbn</th>

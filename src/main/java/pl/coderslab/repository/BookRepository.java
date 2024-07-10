@@ -6,9 +6,15 @@ import org.springframework.stereotype.Repository;
 import pl.coderslab.model.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findAll();
+
+// TE 4 METODY są dziedziczone z JpaRepo i nie trzeba ich deklarować:
+    //    List<Book> findAll();
+    //    Optional<Book> findById(Long id);
+    //    Book save(Book book);
+    //    void deleteById(Long id);
 
 }
