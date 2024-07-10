@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +17,6 @@ public class ErrorControllerAdvice {
         model.addAttribute("exception", exception);
         model.addAttribute("url", req.getRequestURL() );
         model.addAttribute("errorMessage", exception.getMessage());
-        return "exception-page";
+        return "error";
     }
 }
